@@ -14,6 +14,23 @@ exports.register=(req,res)=>{
   .catch(err=>console.log(err))
 }
 
+
+exports.loginctrl = (req, res) => {
+    const { email, password } = req.body;
+
+    model.logindb(email, password).then((result) => {
+            if (result.length > 0) {
+                console.log(result)
+               res.send(result[0]);
+            } else {
+                res.send("User not found");
+            }
+        })
+        .catch((err) => {
+            console.error("Login error:", err);
+        });
+};
+
   
 
 

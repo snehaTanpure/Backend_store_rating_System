@@ -6,13 +6,26 @@ exports.registerUser=(name,email,password,address,role)=>{
            conn.query("insert into users (name, email, password, address, role) values(?,?,?,?,?)",[name,email,password,address,role],(err,result)=>{
             if(err){
                     reject(err);
-                    //  console.log(" not Save");
+                    
             }else{
                 resolve(result);
-                // console.log("Save");
+               
             }
            });     
     })
+}
+
+exports.logindb=(email,password)=>{
+    return new Promise((resolve,reject)=>{
+        conn.query("select * from users where email=? and password=?",[email,password],(err,result)=>{
+            if(err){
+                    reject(err);
+            }else{
+                resolve(result);
+            }
+    });
+    });
+    
 }
 
 exports.addstore=(name,address,owner_id)=>{
