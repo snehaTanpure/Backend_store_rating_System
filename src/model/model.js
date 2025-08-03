@@ -6,10 +6,10 @@ exports.registerUser=(name,email,password,address,role)=>{
            conn.query("insert into users (name, email, password, address, role) values(?,?,?,?,?)",[name,email,password,address,role],(err,result)=>{
             if(err){
                     reject(err);
-                    //  console.log(" not Save");
+                    
             }else{
                 resolve(result);
-                // console.log("Save");
+               
             }
            });     
     })
