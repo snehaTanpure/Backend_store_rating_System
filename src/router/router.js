@@ -4,7 +4,7 @@ let router=express.Router();
 
 
 
-router.post("/login",regctrl.loginctrl);
+router.post("/login",regctrl.login);
 
 router.post("/register",regctrl.register);
 

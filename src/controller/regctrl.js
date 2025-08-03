@@ -15,7 +15,7 @@ exports.register=(req,res)=>{
 }
 
 
-exports.loginctrl = (req, res) => {
+exports.login = (req, res) => {
     const { email, password } = req.body;
 
     model.logindb(email, password).then((result) => {

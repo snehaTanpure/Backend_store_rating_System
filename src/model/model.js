@@ -22,6 +22,7 @@ exports.logindb=(email,password)=>{
                     reject(err);
             }else{
                 resolve(result);
+                console.log("result");
             }
     });
     });
