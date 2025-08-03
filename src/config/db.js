@@ -2,11 +2,13 @@
 let mysql=require("mysql2");
 let dbenv=require("dotenv");
 
+
+
 let conn=mysql.createConnection({
-   host:"localhost",
-   user:"root",
-   password:"Sneha0412",
-   database:"store_rating_system"
+   host:process.env.DB_HOST,
+   user:process.env.DB_USER,
+   password:process.env.DB_PASSWORD,
+   database:process.env.DB_Database
 });
 
 conn.connect( (err)=>{
