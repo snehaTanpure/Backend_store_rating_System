@@ -5,7 +5,13 @@ let router=express.Router();
 
 router.get("/",loginctrl.loginctrl);
 router.post("/register",regctrl.register);
+
+
 router.post("/addstore",regctrl.addstore);
+router.get("/viwestore",regctrl.viwestore);
+
+
+router.post("/addRating",regctrl.addRating);
 
 
 
