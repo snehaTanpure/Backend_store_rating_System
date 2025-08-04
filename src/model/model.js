@@ -15,6 +15,21 @@ exports.registerUser=(name,email,password,address,role)=>{
     })
 }
 
+exports.viewusers=()=>{
+
+    return new Promise((resolve,reject)=>{
+           conn.query("select * from users where role!=?",['admin'],(err,result)=>{
+            if(err){
+                    reject(err);
+                    
+            }else{
+                resolve(result);
+               
+            }
+           });     
+    })
+}
+
 exports.logindb=(email,password)=>{
     return new Promise((resolve,reject)=>{
         conn.query("select * from users where email=? and password=?",[email,password],(err,result)=>{
@@ -29,6 +44,20 @@ exports.logindb=(email,password)=>{
     
 }
 
+
+exports.ownerData=()=>{
+
+    return new Promise((resolve,reject)=>{
+           conn.query("select * from users where role=?",['owner'],(err,result)=>{
+            if(err){
+                    reject(err);
+                    
+            }else{
+                resolve(result);
+            }
+           });     
+    })  
+}
 exports.addstore=(name,address,owner_id)=>{
       return new Promise((resolve,reject)=>{
         conn.query("insert into stores values('0',?,?,?)",[name,address,owner_id],(err,result)=>{
@@ -47,7 +76,7 @@ exports.addstore=(name,address,owner_id)=>{
 
 exports.viewStore = () => {
   return new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM stores", (err, result) => {
+    conn.query("SELECT s.id,s.name,s.address,u.name as owner  FROM stores s join users u on u.id=s.owner_id", (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -71,3 +100,48 @@ exports.addRating = (store_id, user_id, rating) => {
         });
     });
 };
+ 
+
+
+ exports.avgRating = () => {
+  return new Promise((resolve, reject) => {
+    conn.query("select s.name,s.address,avg(r.rating) as avg,sum(r.rating) as sum from stores s join ratings r on r.store_id=s.id group by s.name,s.address", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+
+ exports.allRating = () => {
+  return new Promise((resolve, reject) => {
+    conn.query("select u.name,r.rating,r.created_at from users u join ratings r on  r.user_id=u.id  ", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+
+
+
+
+ exports.deleteStore = (id) => {
+  return new Promise((resolve, reject) => {
+    conn.query("delete from stores where id=?",[id], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+

@@ -1,18 +1,5 @@
 let model=require("../model/model.js");
 
-exports.register=(req,res)=>{
-
-  let {name,email,password,address,role}=req.body;
-  let result=model.registerUser(name,email,password,address,role);
-  result.then((r)=>{
-    if(r. affectedRows>0){
-          res.send("Data added successfully");
-    }else{
-      res.send("Data not added");
-    }
-  })
-  .catch(err=>console.log(err))
-}
 
 
 exports.login = (req, res) => {
@@ -20,7 +7,6 @@ exports.login = (req, res) => {
 
     model.logindb(email, password).then((result) => {
             if (result.length > 0) {
-                console.log(result)
                res.send(result[0]);
             } else {
                 res.send("User not found");
@@ -31,8 +17,49 @@ exports.login = (req, res) => {
         });
 };
 
-  
+exports.register=(req,res)=>{
 
+  let {name,email,password,address,role}=req.body;
+  let result=model.registerUser(name,email,password,address,role);
+  result.then((r)=>{
+    
+    if(r. affectedRows>0){
+          res.send("Data added successfully");
+    }else{
+      res.send("Data not added");
+    }
+  })
+  .catch(err=>console.log(err))
+}
+
+
+exports.viewusers=(req,res)=>{
+
+  let result=model.viewusers();
+  result.then((r)=>{
+    if(r.length!=0){
+          res.send(r);
+    }else{
+      res.send(r);
+    }
+  })
+  .catch(err=>console.log(err))
+}
+ 
+
+
+exports.ownerData=(req,res)=>{
+
+        let result=model.ownerData();
+        result.then((r)=>{
+          if(r.length!=0){
+                res.send(r);
+          }else{
+            res.send(r);
+          }
+        })
+        .catch(err=>console.log(err))
+}
 
 exports.addstore=(req,res)=>{
  let {name,address,owner_id}=req.body;
@@ -83,3 +110,34 @@ exports.addRating=(req,res)=>{
   });
 
 }
+
+
+exports.avgRating = (req, res) => {
+
+  model.avgRating().then((result) => {
+      res.send(result);
+    }).catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+};
+
+exports.allRating = (req, res) => {
+
+  model.allRating().then((result) => {
+      res.send(result);
+    }).catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+};
+
+
+
+exports.deleteStore = (req, res) => {
+  let id=req.params.id;
+  console.log(id);
+  model.deleteStore(id).then((result) => {
+      res.send("delete Store");
+    }).catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+};
