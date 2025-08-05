@@ -113,8 +113,9 @@ exports.addRating=(req,res)=>{
 
 
 exports.avgRating = (req, res) => {
+  let id=req.params.id;
 
-  model.avgRating().then((result) => {
+  model.avgRating(id).then((result) => {
       res.send(result);
     }).catch(err => {
       res.status(500).json({ error: err.message });
@@ -122,8 +123,8 @@ exports.avgRating = (req, res) => {
 };
 
 exports.allRating = (req, res) => {
-
-  model.allRating().then((result) => {
+ let id=req.params.id;
+  model.allRating(id).then((result) => {
       res.send(result);
     }).catch(err => {
       res.status(500).json({ error: err.message });
@@ -134,9 +135,29 @@ exports.allRating = (req, res) => {
 
 exports.deleteStore = (req, res) => {
   let id=req.params.id;
-  console.log(id);
+  
   model.deleteStore(id).then((result) => {
       res.send("delete Store");
+    }).catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+};
+
+
+exports.totalUser = (req, res) => {
+
+  model.totalUser().then((result) => {
+      res.send(result[0].count.toString());
+    }).catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+};
+
+
+exports.totalStore = (req, res) => {
+
+  model.totalStore().then((result) => {
+      res.send(result[0].count.toString());
     }).catch(err => {
       res.status(500).json({ error: err.message });
     });

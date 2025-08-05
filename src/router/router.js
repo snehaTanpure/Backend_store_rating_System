@@ -20,8 +20,11 @@ router.get("/deleteStore/:id",regctrl.deleteStore);
 router.post("/addRating",regctrl.addRating);
 
 
-router.get("/avgRating",regctrl.avgRating);
-router.get("/allRating",regctrl.allRating);
+router.get("/avgRating/:id",regctrl.avgRating);
+router.get("/allRating/:id",regctrl.allRating);
+
+router.get("/totalUser",regctrl.totalUser);
+router.get("/totalStore",regctrl.totalStore);
 
 
 

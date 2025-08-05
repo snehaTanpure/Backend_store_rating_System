@@ -103,9 +103,9 @@ exports.addRating = (store_id, user_id, rating) => {
  
 
 
- exports.avgRating = () => {
+ exports.avgRating = (id) => {
   return new Promise((resolve, reject) => {
-    conn.query("select s.name,s.address,avg(r.rating) as avg,sum(r.rating) as sum from stores s join ratings r on r.store_id=s.id group by s.name,s.address", (err, result) => {
+    conn.query("select s.name,s.address,avg(r.rating) as avg,sum(r.rating) as sum from stores s join ratings r on r.store_id=s.id join users u on u.id=s.owner_id where owner_id=? group by s.name,s.address",[id], (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -116,9 +116,9 @@ exports.addRating = (store_id, user_id, rating) => {
 };
 
 
- exports.allRating = () => {
+ exports.allRating = (id) => {
   return new Promise((resolve, reject) => {
-    conn.query("select u.name,r.rating,r.created_at from users u join ratings r on  r.user_id=u.id  ", (err, result) => {
+    conn.query("select u.name,s.name as store,r.rating,r.created_at from users u join ratings r on  r.user_id=u.id join stores s on s.id=r.store_id where s.owner_id=? ",[id], (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -145,3 +145,27 @@ exports.addRating = (store_id, user_id, rating) => {
 };
 
 
+
+exports.totalUser = () => {
+  return new Promise((resolve, reject) => {
+    conn.query("select count(id)as count from users", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+exports.totalStore = () => {
+  return new Promise((resolve, reject) => {
+    conn.query("select count(id)as count from Stores", (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
